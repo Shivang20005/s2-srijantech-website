@@ -1,0 +1,7 @@
+{
+    "name": "s2-root",
+    "private": true,
+    "scripts": {
+        "start": "npm start --prefix s2-react"
+    }
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | S2Srijantech</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .portfolio-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .portfolio-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 43, 91, 0.95), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2.5rem;
+            color: white;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .portfolio-card:hover .portfolio-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .portfolio-card:hover img {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="scrolled">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo 1.jpeg" alt="S2Srijantech Logo">
+                <span class="logo-text">S2Srijantech</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="services.html">Services</a>
+                <a href="predict-ai.html">Predict_AI</a>
+                <a href="portfolio.html" class="active">Portfolio</a>
+                <a href="why-choose-us.html">Why Choose Us</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" style="padding: 10rem 0 5rem; text-align: center;">
+            <div class="container">
+                <h1 class="animate-up">Our <span>Portfolio</span></h1>
+                <p class="animate-up" style="max-width: 700px; margin: 0 auto;">A showcase of our most innovative
+                    projects and successful collaborations.</p>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0 8rem;">
+            <div class="container">
+                <div class="portfolio-grid">
+
+                    <div class="portfolio-card animate-up">
+                        <img src="12.jpeg" alt="Project 1">
+                        <div class="portfolio-overlay">
+                            <h3>Predict_AI Analytics</h3>
+                            <p>Predictive modeling platform for financial markets.</p>
+                            <span
+                                style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 1rem; color: var(--accent);">AI
+                                / Data Science</span>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-card animate-up" style="animation-delay: 0.2s;">
+                        <img src="22222222222222.jpeg" alt="Project 2">
+                        <div class="portfolio-overlay">
+                            <h3>Smart Retail System</h3>
+                            <p>AI-powered inventory management for global retailers.</p>
+                            <span
+                                style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 1rem; color: var(--accent);">Automation
+                                / IoT</span>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-card animate-up" style="animation-delay: 0.4s;">
+                        <img src="2.jpeg" alt="Project 3">
+                        <div class="portfolio-overlay">
+                            <h3>SecureHealth Portal</h3>
+                            <p>Cyber-secure patient management system for hospitals.</p>
+                            <span
+                                style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 1rem; color: var(--accent);">Web
+                                Dev / Security</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <a href="index.html" class="logo" style="color: white;">
+                    <img src="logo 1.jpeg" alt="S2Srijantech Logo">
+                    <span class="logo-text">S2Srijantech</span>
+                </a>
+                <p>Leading the way in AI innovation and professional technology services. We build smart solutions for a
+                    smarter world.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Projects</h3>
+                <ul>
+                    <li><a href="predict-ai.html">Predict_AI</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Contact</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> info@s2srijantech.com</li>
+                    <li><i class="fas fa-phone"></i> +91 000 000 0000</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 S2Srijantech. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
