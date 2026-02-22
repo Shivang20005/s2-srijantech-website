@@ -5,13 +5,13 @@ const Founders = () => {
     const founders = [
         {
             name: 'Shivang Gangwar',
-            role: 'Co-Founder & Chief Technical Architect',
+            role: 'Founder & Chief Technical Architect',
             linkedin: 'https://www.linkedin.com/in/shivang-gangwar-a7a87b28b',
             image: null // Placeholder or icon
         },
         {
             name: 'Srishti Yadav',
-            role: 'Co-Founder & Chief Operations Officer',
+            role: 'Founder & Chief Operations Officer',
             linkedin: 'https://www.linkedin.com/in/srishti-yadav-8937b932b',
             image: null // Placeholder or icon
         }

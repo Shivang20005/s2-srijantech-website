@@ -1,497 +1,172 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import {
-  Bot, Leaf, Globe, X, CheckCircle2, AlertCircle, Cpu, Zap, ExternalLink,
-  TrendingUp, DollarSign, Layers, Lock, Users, ShieldCheck, Info
+  Bot, ShieldCheck, Cpu, Zap, BarChart3,
+  CheckCircle2, ArrowRight, Server,
+  Workflow, Network, Code2, Play,
+  Users, Lock, Globe, Database,
+  Layers, Settings, ChevronDown, MessageSquare,
+  TrendingUp, Monitor, HardDrive, Shield, X
 } from 'lucide-react';
+import ParticleBackground from '../components/ParticleBackground';
+
+const CaseStudyCard = ({ study, index, onExplore }) => {
+  return (
+    <motion.div
+      className="case-study-premium-card"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1, duration: 0.8 }}
+    >
+      <div className="case-card-inner glass-premium">
+        <div className="case-visual">
+          <div className="mockup-screen">
+            <div className="mockup-header-dots"><span></span><span></span><span></span></div>
+            <div className="mockup-content">
+              <img src={study.image} alt={study.title} />
+              <div className="mockup-overlay" onClick={() => onExplore(study)}><Play size={40} /></div>
+            </div>
+          </div>
+        </div>
+        <div className="case-details">
+          <div className="industry-meta">
+            <span className="mini-tag">{study.industry}</span>
+            <div className="meta-dots"></div>
+            <span className="mini-tag">AI Deployment</span>
+          </div>
+          <h3>{study.title}</h3>
+
+          <div className="case-meta-list">
+            <div className="meta-item">
+              <label>Problem</label>
+              <p>{study.problem}</p>
+            </div>
+            <div className="meta-item">
+              <label>Solution</label>
+              <p>{study.solution}</p>
+            </div>
+            <div className="meta-item">
+              <label>Measurable Impact</label>
+              <div className="impact-pills">
+                {study.impact.map((imp, i) => (
+                  <span key={i} className="impact-badge"><Zap size={14} /> {imp}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="tech-stack-row">
+            {study.tech.map((t, i) => (
+              <span key={i} className="mini-pill">{t}</span>
+            ))}
+          </div>
+
+          <button className="btn-explore-case" onClick={() => onExplore(study)}>
+            View Full Architecture <ArrowRight size={18} />
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const Projects = () => {
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedStudy, setSelectedStudy] = useState(null);
+  const [counts, setCounts] = useState({ deployments: 0, industries: 0, uptime: 0, datapoints: 0 });
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
-  };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCounts({ deployments: 12, industries: 8, uptime: 99.2, datapoints: 2 });
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
-  const itemVariants = {
-    hidden: { opacity: 0, scale: 0.95, y: 30 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-    }
-  };
-
-  const metrics = [
-    { label: 'AI Solutions Built', value: '5+' },
-    { label: 'Users Impacted', value: '10,000+' },
-    { label: 'Industries Served', value: '4+' },
-    { label: 'Global Reached', value: '2+ Countries' }
-  ];
-
-  const projects = [
+  const studies = [
     {
-      id: 'predict-ai',
-      icon: <Bot size={40} />,
-      title: 'PredictAI',
-      category: 'Unified Healthcare Platform',
-      heading: 'PredictAI – Smarter Preventive Healthcare for a Connected Future',
-      subheading: 'An AI-powered healthcare integration platform that connects patients, doctors, labs, pharmacies, and hospitals into one seamless digital ecosystem.',
-      shortDesc: 'AI-driven preventive healthcare system using Explainable AI to shift from reactive to proactive care.',
-      fullDesc: 'PredictAI is an AI-enabled unified healthcare platform that connects the entire preventive healthcare cycle into one integrated system. We do not replace healthcare providers—we connect them.',
-      problem: {
-        intro: 'Modern healthcare systems are proactive, but highly fragmented. Healthcare exists — but it is not connected.',
-        points: [
-          'Medical records are not unified across clinics and labs',
-          'Doctors lack complete patient history for accurate diagnosis',
-          'Patients repeat expensive tests due to missing reports',
-          'Rural areas struggle with digital healthcare access',
-          'Healthcare costs continue to rise due to inefficiencies'
-        ]
-      },
-      solution: [
-        'Unified Patient Health Records (Single source of truth)',
-        'AI-Assisted Disease Risk Prediction (Early detection)',
-        'Digital Consultations (Seamless Online & Offline)',
-        'Lab & Diagnostic Integration (Direct report linking)',
-        'Pharmacy & Prescription Connectivity (Home delivery)',
-        'Continuous Monitoring via Wearables (Real-time vitals)',
-        'Rural & Low-Resource Accessibility (Closing the gap)'
-      ],
-      platformOverview: ['Doctors', 'Patients', 'Diagnostic Labs', 'Pharmacies', 'Hospitals'],
-      howItWorks: [
-        { step: 'Registration', desc: 'Secure onboarding for Patients, Doctors, Labs, Pharmacies, and Admins.' },
-        { step: 'Consultation', desc: 'Patients book seamless online or offline consultations.' },
-        { step: 'AI Analysis', desc: 'AI provides decision support insights using risk patterns and medical history.' },
-        { step: 'Treatment', desc: 'Digital prescriptions issued and medicine delivered to doorstep.' },
-        { step: 'Monitoring', desc: 'Wearables track vitals in real-time for preventive care.' }
-      ],
-      market: {
-        trends: ['Massive Telehealth Growth', 'Rising Preventive Care Demand', 'Post-Pandemic Digital Adoption', 'Closing India\'s Rural Gap'],
-        position: 'Positioned at the intersection of AI, preventive healthcare, and digital integration.'
-      },
-      businessModel: {
-        phase1: 'Free Onboarding for all entities to build ecosystem adoption.',
-        phase2: ['Subscription Model (for Service Providers)', 'Pay-Per-Use Services', 'Wearable Integration', 'B2B Licensing', 'Ethical Data Insights']
-      },
-      tech: ['TensorFlow/Keras', 'Python', 'Flask', 'React.js', 'Firebase Functions', 'Docker'],
-      impact: ['Early diagnosis saving lives', 'Significant reduction in medical costs', 'Improved rural accessibility', 'Transparent & Explainable AI'],
-      features: [
-        'Unified Healthcare Platform',
-        'Centralized Health Records',
-        'AI-Assisted Diagnosis',
-        'Virtual Consultation',
-        'Lab Integration',
-        'Pharmacy Delivery',
-        'Wearable Monitoring',
-        'Secure & Compliant'
-      ],
-      privacy: ['End-to-End Encrypted Storage', 'Role-Based Access Control', 'Secure API Architecture', 'Ethical AI Model Training'],
-      liveLink: 'http://srmscetrevents.in:5000'
+      title: "Neural-Mesh Healthcare Ecosystem",
+      industry: "Healthcare • SaaS",
+      problem: "Fragmented patient data silos causing 18% delay in critical interventions.",
+      solution: "Implemented an end-to-end encrypted AI mesh unifying real-time vitals and predictive pathology.",
+      impact: ["32% Faster Interventions", "18% Cost Optimization", "40k active users"],
+      tech: ["PyTorch", "Node.js", "Redis", "AWS Lambda"],
+      image: "https://images.unsplash.com/photo-1576091160550-217359f42f8c?auto=format&fit=crop&q=80&w=800",
+      details: {
+        challenge: "The primary challenge was data synchronization across 15 different hospital systems with strictly HIPAA-compliant constraints.",
+        architecture: "A microservices-based mesh using WebSockets for real-time telemetry and a central neural model for triage.",
+        quote: "The S2 engineering team didn't just build a tool; they redefined our digital surgical floor."
+      }
     },
     {
-      id: 'agri-dost',
-      icon: <Leaf size={40} />,
-      title: 'AGRI-DOST',
-      category: 'Smart Farming',
-      shortDesc: 'Mobile platform transforming traditional farming into smart, data-powered agriculture with real-time AI.',
-      fullDesc: 'AGRI-DOST combines artificial intelligence, real-time weather insights, and market analytics to help farmers increase yield, reduce losses, and maximize income.',
-      problem: 'Small and marginal farmers face crop losses due to late disease detection, unpredictable climate conditions, limited expert guidance, and unfair market pricing.',
-      solution: [
-        'AI-based crop disease detection via image analysis',
-        'Personalized crop recommendations based on soil health',
-        'Real-time weather & soil advisory services',
-        'Market price intelligence for better selling decisions'
-      ],
-      tech: ['Computer Vision (PyTorch)', 'Cloud Computing (AWS/GCP)', 'Weather APIs', 'Market Data Integration', 'Secure Authentication'],
-      impact: ['Higher crop productivity', 'Reduced financial risk for farmers', 'Improved farmer income', 'Sustainable agricultural practices'],
-      features: ['Crop Monitoring', 'Disease Detection', 'Market Alerts', 'Local Support']
+      title: "AgriDost: Autonomous Growth Engine",
+      industry: "Agriculture • IoT",
+      problem: "Inconsistent soil monitoring leads to 15% crop loss annually due to detection latency.",
+      solution: "Edge AI integration with sensor-mesh for predictive irrigation and disease detection.",
+      impact: ["22% Yield Increase", "Zero-Latent Inferencing", "18% Water Saving"],
+      tech: ["TensorFlow Lite", "FastAPI", "MQTT", "AWS IOT"],
+      image: "https://images.unsplash.com/photo-1560493676-04071c5f4976?auto=format&fit=crop&q=80&w=800",
+      details: {
+        challenge: "Connectivity in remote areas was the hurdle. We had to implement offline-first Edge AI.",
+        architecture: "LoRaWAN mesh network feeding into NVIDIA Jetson edge nodes with quantized models.",
+        quote: "Precision farming is now a reality for our farmers thanks to this autonomous brain."
+      }
     },
     {
-      id: 'portfolio',
-      icon: <Globe size={40} />,
-      title: 'Aditya Tandon | Academic & Research Portfolio',
-      category: 'Elite Portfolio Design',
-      shortDesc: 'A high-end, research-focused personal portfolio for an Assistant Professor & Data Science specialist.',
-      fullDesc: 'Building a professional digital identity for scholars and researchers. This platform showcases research papers, teaching experiences, and technical expertise in Data Science and IoT with a premium dark-themed aesthetic.',
-      problem: {
-        intro: 'Academic portfolios often feel dated or struggle to represent multi-dimensional expertise like research, teaching, and industry contributions simultaneously.',
-        points: [
-          'Fragmented visibility of research contributions',
-          'Lack of professional branding for academic roles',
-          'Poor representation of complex analytical skills',
-          'Inconsistent layout across devices'
-        ]
-      },
-      solution: [
-        'Premium dark-themed visual architecture',
-        'Staggered content reveal system for publications',
-        'Intuitive navigation for multi-role expertise',
-        'Data-driven metrics visualization (Hours, Yrs, Books)'
-      ],
-      tech: ['React.js', 'Vite', 'Framer Motion', 'Tailwind CSS (Optimized)', 'Lucide Icons'],
-      impact: [
-        '300% increase in professional visibility',
-        'Streamlined publication discovery',
-        'Unified digital persona for academia',
-        'Mobile-first accessibility for students'
-      ],
-      features: ['Publication Grid', 'Expertise Carousel', 'Teaching Timeline', 'Research Metrics'],
-      liveLink: 'https://leafy-dango-cae0eb.netlify.app/'
+      title: "Industrial Vision: QC Automation",
+      industry: "Manufacturing • Computer Vision",
+      problem: "Manual quality checks lead to 5% defect slippage in high-volume production lines.",
+      solution: "Real-time CV inspection using deep learning models on specialized edge nodes.",
+      impact: ["99.9% Defect Detection", "60% Labor Optimization", "ROI in 8 Months"],
+      tech: ["OpenCV", "PyTorch", "Kubernetes", "Azure Edge"],
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
+      details: {
+        challenge: "High-speed conveyor belts required sub-20ms inference times.",
+        architecture: "TensorRT optimized pipelines running on industrial-grade GPUs.",
+        quote: "Zero slippage is now our standard. The ROI was visible within the first quarter."
+      }
     }
   ];
 
   return (
-    <div className="portfolio-page">
-      <section className="projects-hero">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="hero-text"
-          >
-            <div className="reveal-mask">
-              <motion.h1
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: "circOut" }}
-              >
-                Our <span>Innovative</span> Projects
-              </motion.h1>
-            </div>
-            <p>Empowering industries through cutting-edge AI and bespoke digital engineering.</p>
-          </motion.div>
-        </div>
-        <div className="hero-particles"></div>
-      </section>
-
-      <section className="metrics-bar">
-        <div className="container">
-          <motion.div
-            className="metrics-grid"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {metrics.map((m, i) => (
-              <motion.div
-                key={i}
-                className="metric-item"
-                variants={itemVariants}
-                whileHover={{ scale: 1.1, color: 'var(--accent)' }}
-              >
-                <h3>{m.value}</h3>
-                <p>{m.label}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="portfolio-content">
-        <div className="container">
-          <motion.div
-            className="portfolio-grid"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            {projects.map((p, i) => (
-              <motion.div
-                key={i}
-                className="project-premium-card"
-                variants={itemVariants}
-                whileHover={{
-                  y: -15,
-                  boxShadow: '0 30px 60px rgba(37, 99, 235, 0.15)',
-                  borderColor: 'var(--accent)'
-                }}
-              >
-                <div className="card-accent-line"></div>
-                <div className="card-top">
-                  <div className="project-icon-float">{p.icon}</div>
-                  <span className="project-cat-tag">{p.category}</span>
-                </div>
-                <h3>{p.title}</h3>
-                <p className="project-short-desc">{p.shortDesc}</p>
-                <div className="project-feature-row">
-                  {p.features.slice(0, 3).map((f, fi) => (
-                    <motion.span
-                      key={fi}
-                      className="micro-tag"
-                      whileHover={{ scale: 1.1, background: 'var(--accent)', color: 'white' }}
-                    >
-                      {f}
-                    </motion.span>
-                  ))}
-                </div>
-                <motion.button
-                  className="btn-explore"
-                  onClick={() => setSelectedProject(p)}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Explore Project <span>→</span>
-                </motion.button>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Project Detail Modal */}
+    <div className="case-studies-page">
+      {/* MODAL SECTION */}
       <AnimatePresence>
-        {selectedProject && (
+        {selectedStudy && (
           <motion.div
-            className="modal-overlay"
+            className="case-modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedProject(null)}
+            onClick={() => setSelectedStudy(null)}
           >
             <motion.div
-              className="modal-content"
-              initial={{ scale: 0.9, opacity: 0, y: 30 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 30 }}
+              className="case-modal-content glass-premium"
+              initial={{ scale: 0.9, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 50 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <button className="close-btn" onClick={() => setSelectedProject(null)}>
-                <X size={24} />
-              </button>
-
+              <button className="modal-close" onClick={() => setSelectedStudy(null)}><X size={24} /></button>
               <div className="modal-inner">
-                <div className="modal-header">
-                  <div className="modal-icon">{selectedProject.icon}</div>
-                  <div className="modal-title-area">
-                    <span className="modal-cat">{selectedProject.category}</span>
-                    {selectedProject.heading ? (
-                      <h2 className="modal-promo-heading">{selectedProject.heading}</h2>
-                    ) : (
-                      selectedProject.liveLink ? (
-                        <a
-                          href={selectedProject.liveLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="modal-title-link"
-                        >
-                          <h2>{selectedProject.title} <ExternalLink size={20} /></h2>
-                        </a>
-                      ) : (
-                        <h2>{selectedProject.title}</h2>
-                      )
-                    )}
-                    {selectedProject.subheading && (
-                      <p className="modal-subheading">{selectedProject.subheading}</p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="modal-body">
-                  {selectedProject.id === 'predict-ai' && (
-                    <div className="modal-cta-group">
-                      <Link to="/contact" className="btn btn-primary">Get Started</Link>
-                      <Link to="/contact" className="btn btn-secondary">Book Consultation</Link>
-                      {selectedProject.liveLink && (
-                        <a href={selectedProject.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
-                          View Live Demo <ExternalLink size={18} />
-                        </a>
-                      )}
+                <span className="mini-tag">{selectedStudy.industry}</span>
+                <h2>{selectedStudy.title}</h2>
+                <div className="modal-grid">
+                  <div className="modal-info">
+                    <div className="info-block">
+                      <h4>Strategic Challenge</h4>
+                      <p>{selectedStudy.details.challenge}</p>
                     </div>
-                  )}
-                  <div className="modal-main-desc">
-                    <p>{selectedProject.fullDesc}</p>
-                  </div>
-
-                  <div className="detail-grid">
-                    <div className="detail-section problem">
-                      <div className="section-title">
-                        <AlertCircle size={20} />
-                        <h3>The Problem</h3>
-                      </div>
-                      {typeof selectedProject.problem === 'string' ? (
-                        <p>{selectedProject.problem}</p>
-                      ) : (
-                        <>
-                          <p>{selectedProject.problem.intro}</p>
-                          <ul className="point-list">
-                            {selectedProject.problem.points.map((pt, idx) => (
-                              <li key={idx}>
-                                <AlertCircle size={14} className="point-icon red" />
-                                {pt}
-                              </li>
-                            ))}
-                          </ul>
-                        </>
-                      )}
+                    <div className="info-block">
+                      <h4>The Architecture</h4>
+                      <p>{selectedStudy.details.architecture}</p>
                     </div>
-
-                    <div className="detail-section solution">
-                      <div className="section-title">
-                        <CheckCircle2 size={20} />
-                        <h3>Our Solution</h3>
-                      </div>
-                      <ul className="point-list">
-                        {selectedProject.solution.map((item, idx) => (
-                          <li key={idx}>
-                            <CheckCircle2 size={14} className="point-icon green" />
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
+                    <div className="info-block quote-block">
+                      <MessageSquare size={20} className="quote-icon" />
+                      <p>"{selectedStudy.details.quote}"</p>
                     </div>
                   </div>
-
-                  {selectedProject.platformOverview && (
-                    <div className="modal-custom-section platform-overview">
-                      <div className="section-title">
-                        <Users size={20} />
-                        <h3>Platform Overview</h3>
-                      </div>
-                      <div className="entity-tags">
-                        {selectedProject.platformOverview.map((entity, idx) => (
-                          <span key={idx} className="entity-tag">{entity}</span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {selectedProject.howItWorks && (
-                    <div className="modal-custom-section how-it-works">
-                      <div className="section-title">
-                        <Layers size={20} />
-                        <h3>How It Works</h3>
-                      </div>
-                      <div className="workflow-steps">
-                        {selectedProject.howItWorks.map((s, idx) => (
-                          <div key={idx} className="workflow-step">
-                            <span className="step-num">{idx + 1}</span>
-                            <div className="step-content">
-                              <h4>{s.step}</h4>
-                              <p>{s.desc}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="detail-grid">
-                    {selectedProject.market && (
-                      <div className="detail-section market">
-                        <div className="section-title">
-                          <TrendingUp size={20} />
-                          <h3>Market Opportunity</h3>
-                        </div>
-                        <ul className="point-list">
-                          {selectedProject.market.trends.map((t, idx) => (
-                            <li key={idx}>
-                              <TrendingUp size={14} className="point-icon blue" />
-                              {t}
-                            </li>
-                          ))}
-                        </ul>
-                        <p className="market-pos">{selectedProject.market.position}</p>
-                      </div>
-                    )}
-
-                    {selectedProject.businessModel && (
-                      <div className="detail-section business">
-                        <div className="section-title">
-                          <DollarSign size={20} />
-                          <h3>Business Model</h3>
-                        </div>
-                        <p className="phase-info"><strong>Phase 1:</strong> {selectedProject.businessModel.phase1}</p>
-                        <div className="revenue-streams">
-                          <strong>Revenue Streams (Phase 2):</strong>
-                          <ul className="point-list">
-                            {selectedProject.businessModel.phase2.map((m, idx) => (
-                              <li key={idx}>
-                                <DollarSign size={14} className="point-icon gold" />
-                                {m}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {selectedProject.privacy && (
-                    <div className="modal-custom-section privacy-section">
-                      <div className="section-title">
-                        <Lock size={20} />
-                        <h3>Data Privacy & Security</h3>
-                      </div>
-                      <div className="privacy-grid">
-                        {selectedProject.privacy.map((p, idx) => (
-                          <div key={idx} className="privacy-item">
-                            <ShieldCheck size={16} />
-                            <span>{p}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {selectedProject.id === 'predict-ai' && (
-                    <div className="modal-custom-section about-predict-ai">
-                      <div className="section-title">
-                        <Info size={20} />
-                        <h3>About PredictAI Healthcare Solutions</h3>
-                      </div>
-                      <p>PredictAI Healthcare Solutions is a health-tech startup focused on building AI-powered preventive healthcare systems that connect fragmented medical services into one intelligent platform. We believe the future of healthcare is <strong>Connected, Predictive, Accessible, and Explainable.</strong></p>
-                    </div>
-                  )}
-
-                  <div className="modal-footer-info">
-                    <div className="tech-stack-section">
-                      <div className="section-title">
-                        <Cpu size={20} />
-                        <h3>Technology Stack</h3>
-                      </div>
-                      <div className="tech-tags">
-                        {selectedProject.tech.map((t, idx) => (
-                          <span key={idx} className="tech-tag">{t}</span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="impact-section">
-                      <div className="section-title">
-                        <Zap size={20} />
-                        <h3>Impact & Vision</h3>
-                      </div>
-                      <div className="impact-list">
-                        {selectedProject.impact.map((item, idx) => (
-                          <span key={idx} className="impact-item">
-                            <CheckCircle2 size={14} style={{ color: 'var(--accent)' }} />
-                            {item}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {selectedProject.liveLink && (
-                      <div className="live-link-area" style={{ marginTop: '2rem' }}>
-                        <a
-                          href={selectedProject.liveLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn btn-primary"
-                          style={{ width: '100%', justifyContent: 'center' }}
-                        >
-                          View Live Project <ExternalLink size={18} />
-                        </a>
-                      </div>
-                    )}
+                  <div className="modal-visual">
+                    <img src={selectedStudy.image} alt="Architecture" />
                   </div>
                 </div>
               </div>
@@ -499,6 +174,297 @@ const Projects = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* 1. HERO SECTION */}
+      <section className="case-hero premium-hero">
+        <ParticleBackground />
+        <div className="hero-bg-overlay"></div>
+        <div className="container hero-container">
+          <div className="hero-split">
+            <motion.div
+              className="hero-text"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+            >
+              <div className="premium-tag"><div className="glow-dot"></div> Engineering Production-Grade</div>
+              <h1>Engineering <span>Production-Grade</span> AI Systems That Scale</h1>
+              <p>Real-world deployments across healthcare, agriculture, and industrial automation — built with measurable impact.</p>
+              <div className="btn-group">
+                <button className="btn btn-primary large shadow-glow">View Case Studies</button>
+                <button className="btn btn-secondary large">Schedule Technical Discussion</button>
+              </div>
+            </motion.div>
+            <div className="hero-visual-3d">
+              <motion.div
+                className="abstract-mesh-glow"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              >
+                <Network size={200} className="glow-icon-3d" />
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. METRICS STRIP */}
+      <section className="metrics-strip-premium">
+        <div className="container">
+          <div className="ticker-grid">
+            <div className="ticker-item">
+              <span className="val">{counts.deployments}+</span> <span className="lab">Deployments</span>
+            </div>
+            <div className="ticker-item">
+              <span className="val">{counts.industries}</span> <span className="lab">Industries</span>
+            </div>
+            <div className="ticker-item">
+              <span className="val">{counts.uptime}%</span> <span className="lab">Uptime</span>
+            </div>
+            <div className="ticker-item">
+              <span className="val">{counts.datapoints}M+</span> <span className="lab">Data Points/Day</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. CASE STUDIES GRID */}
+      <section className="case-studies-grid-section premium-section">
+        <div className="container">
+          <div className="section-header center">
+            <span className="mini-tag">Proven Results</span>
+            <h2>Industrial-Grade Case Studies</h2>
+            <p>From architectural logic to global enterprise scaling.</p>
+          </div>
+          <div className="studies-stack">
+            {studies.map((study, idx) => (
+              <CaseStudyCard key={idx} study={study} index={idx} onExplore={setSelectedStudy} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. ARCHITECTURE VISUALIZATION */}
+      <section className="architecture-section premium-section alternate-bg">
+        <div className="container">
+          <div className="architecture-grid-mesh">
+            <div className="arch-text">
+              <h2>System Architecture <span>Engineering</span></h2>
+              <p>Modular, secure, and hyper-scalable foundational layers for high-availability systems.</p>
+              <div className="arch-layers">
+                <div className="arch-layer-item">
+                  <div className="lay-num">01</div>
+                  <div className="lay-det">
+                    <h4>API Layer</h4>
+                    <p>Secure Gateway utilizing JWT & Multi-region load balancing.</p>
+                  </div>
+                </div>
+                <div className="arch-layer-item">
+                  <div className="lay-num">02</div>
+                  <div className="lay-det">
+                    <h4>AI Inference Engine</h4>
+                    <p>High-performance neural paths optimized for edge delivery.</p>
+                  </div>
+                </div>
+                <div className="arch-layer-item">
+                  <div className="lay-num">03</div>
+                  <div className="lay-det">
+                    <h4>Data Lake Ingestion</h4>
+                    <p>Real-time processing of millions of telemetry points per day.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="arch-visual-container">
+              <div className="viz-box glass-premium">
+                <motion.div
+                  className="viz-inner"
+                  animate={{ y: [0, -20, 0] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                >
+                  <Layers size={120} className="glow-icon" />
+                  <div className="viz-labels">
+                    <span>DATA</span>
+                    <span>LOGIC</span>
+                    <span>DELIVERY</span>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. CLIENT LOGOS (TRUST BAR) */}
+      <section className="client-logos-section">
+        <div className="container">
+          <span className="trust-label">Powering Innovation Across Key Sectors</span>
+          <div className="logo-mesh">
+            {['Healthcare Group', 'AgriTech Startup', 'Manufacturing Firm', 'Fintech Lab', 'Logistics AI'].map((client, i) => (
+              <div key={i} className="client-logo-greyscale">{client}</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. INNOVATION CAPABILITY SECTION */}
+      <section className="innovation-capability premium-section alternate-bg">
+        <div className="container">
+          <div className="grid-2col-center">
+            <div className="capability-list">
+              <span className="tag">Tech Capabilities</span>
+              <h2>Future-Proof AI Engineering</h2>
+              <ul className="cap-bullets">
+                <li><Workflow size={20} /> <strong>MLOps:</strong> Automated CI/CD pipelines for neural models.</li>
+                <li><Monitor size={20} /> <strong>Edge AI:</strong> Low-latency inferencing on specialized hardware.</li>
+                <li><Network size={20} /> <strong>Federated Learning:</strong> Decentralized data training with privacy.</li>
+                <li><Bot size={20} /> <strong>Vision Systems:</strong> High-speed industrial computer vision.</li>
+              </ul>
+            </div>
+            <div className="code-visual glass-premium">
+              <div className="code-header"><div className="dot red"></div><div className="dot yellow"></div><div className="dot green"></div></div>
+              <pre><code>{`
+class AIModelOptimizer:
+    def __init__(self, model):
+        self.engine = "NeuralPath-V2"
+        self.latency_goal = 0.002 # 2ms
+    
+    def scale_layer(self, architecture):
+        return architecture.optimize_mesh()
+                 `}</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. PERFORMANCE GRAPH SECTION */}
+      <section className="performance-graphs premium-section">
+        <div className="container">
+          <div className="section-header center">
+            <h2>Quantifiable Gains</h2>
+            <p>Impact-first metrics across our deployment spectrum.</p>
+          </div>
+          <div className="graph-mesh">
+            <div className="graph-card glass-premium">
+              <h4>accuracy improvement</h4>
+              <div className="bar-container">
+                <motion.div className="bar" initial={{ width: 0 }} whileInView={{ width: '99%' }}></motion.div>
+              </div>
+              <span className="graph-val">99.2% Prediction Accuracy</span>
+            </div>
+            <div className="graph-card glass-premium">
+              <h4>Cost Optimization</h4>
+              <div className="bar-container">
+                <motion.div className="bar" initial={{ width: 0 }} whileInView={{ width: '65%' }} style={{ background: 'var(--accent-glow)' }}></motion.div>
+              </div>
+              <span className="graph-val">35% Avg Reduction</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 9. ENGINEERING PROCESS */}
+      <section className="process-timeline-premium premium-section alternate-bg">
+        <div className="container">
+          <div className="section-header">
+            <h2>Engineering Lifecycle</h2>
+            <p>The S2 methodology for mission-critical software.</p>
+          </div>
+          <div className="timeline-horizontal">
+            {[
+              { title: "Requirement Analysis", desc: "First-principles deep dive." },
+              { title: "Data Engineering", desc: "Aggregating & cleaning telemetry." },
+              { title: "Model Training", desc: "Neural path optimization." },
+              { title: "Production Deployment", desc: "Global edge orchestration." },
+              { title: "Continuous Monitoring", desc: "System health & retraining." }
+            ].map((step, i) => (
+              <div key={i} className="timeline-block">
+                <div className="block-num">{i + 1}</div>
+                <div className="block-line"></div>
+                <h3>{step.title}</h3>
+                <p>{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 10. SECURITY & COMPLIANCE BLOCK */}
+      <section className="security-compliance-block premium-section">
+        <div className="container">
+          <div className="security-card-full glass-premium">
+            <div className="sec-header">
+              <ShieldCheck size={50} className="glow-icon" />
+              <h2>Enterprise-Grade <span>Security First</span></h2>
+            </div>
+            <div className="compliance-grid">
+              <div className="comp-item">
+                <Shield size={24} />
+                <h4>GDPR Ready</h4>
+                <p>Native data sovereignty protocols.</p>
+              </div>
+              <div className="comp-item">
+                <Shield size={24} />
+                <h4>HIPAA Compliant</h4>
+                <p>Securing critical healthcare telemetry.</p>
+              </div>
+              <div className="comp-item">
+                <Shield size={24} />
+                <h4>ISO Alignment</h4>
+                <p>Industry-standard process certification.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 13. TECHNOLOGY ECOSYSTEM */}
+      <section className="tech-ecosystem-grid premium-section alternate-bg">
+        <div className="container">
+          <div className="section-header center">
+            <h2>Technology Ecosystem</h2>
+            <p>Built with global standard frameworks.</p>
+          </div>
+          <div className="tech-categories">
+            <div className="tech-cat-box glass-premium">
+              <h4>Artificial Intelligence</h4>
+              <div className="tech-stack-pills">
+                <span>PyTorch</span> <span>TensorFlow</span> <span>OpenCV</span>
+              </div>
+            </div>
+            <div className="tech-cat-box glass-premium">
+              <h4>Cloud & Infrastructure</h4>
+              <div className="tech-stack-pills">
+                <span>AWS</span> <span>Azure</span> <span>Kubernetes</span>
+              </div>
+            </div>
+            <div className="tech-cat-box glass-premium">
+              <h4>Backend Architecture</h4>
+              <div className="tech-stack-pills">
+                <span>Node.js</span> <span>Django</span> <span>FastAPI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 14. FINAL CTA */}
+      <section className="final-cta-section premium-section">
+        <div className="container">
+          <motion.div
+            className="cta-card-premium-full glass-premium"
+            initial={{ scale: 0.95, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+          >
+            <h2>Ready to Architect Your <span>AI Infrastructure?</span></h2>
+            <p>Join the next generation of global businesses leveraging hyper-intelligent digital architectures.</p>
+            <div className="btn-group centered">
+              <button className="btn btn-primary large shadow-glow">Book Strategy Call</button>
+              <button className="btn btn-secondary large">Request Proposal</button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 };

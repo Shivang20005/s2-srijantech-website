@@ -1,133 +1,132 @@
 import { motion } from 'framer-motion';
-import { Lightbulb, Handshake, Users, Target } from 'lucide-react';
+import { Lightbulb, Handshake, Users, Target, Rocket, Eye, Shield, Globe, Cpu, ArrowRight } from 'lucide-react';
 
 const About = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-    }
-  };
+  const roadmap = [
+    { year: '2024', title: 'Foundational Scale', desc: 'Established core AI engineering workflows and reached 50+ successful deployments.' },
+    { year: '2025', title: 'Intelligence Expansion', desc: 'Launching industrial-grade LLM integrations and autonomous agent frameworks.' },
+    { year: '2027', title: 'Global Architecture Hub', desc: 'Expanding to 15+ global markets with dedicated AI research labs.' },
+    { year: '2030', title: 'AGI Alignment', desc: 'Leading the bridge between human intent and artificial general intelligence.' }
+  ];
 
   const values = [
-    { icon: <Lightbulb size={32} />, title: 'Innovation', desc: 'Constantly exploring new ideas and technologies to stay ahead of the curve.' },
-    { icon: <Handshake size={32} />, title: 'Integrity', desc: 'Building trust through transparency, honesty, and ethical practices.' },
-    { icon: <Users size={32} />, title: 'Collaboration', desc: 'Working closely with our clients to ensure their success is our goal.' },
-    { icon: <Target size={32} />, title: 'Excellence', desc: 'Delivering high-quality solutions that exceed industry standards.' }
+    { icon: <Cpu />, title: 'Technical Excellence', desc: 'We build foundations, not just features. Performance and security are non-negotiable.' },
+    { icon: <Shield />, title: 'Ethical Aligment', desc: 'AI must be transparent and bias-free. We architect with human values at the core.' },
+    { icon: <Globe />, title: 'Global Vision', desc: 'Engineering solutions that scale across borders and cultures without friction.' },
+    { icon: <Rocket />, title: 'Rapid Iteration', desc: 'Moving from concept to production with enterprise-grade velocity.' }
   ];
 
   return (
     <div className="about-page">
-      <section className="page-header">
+      <section className="page-header dark">
         <div className="container">
-          <div className="reveal-mask">
-            <motion.h1
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.8, ease: "circOut" }}
-            >
-              About <span>S2Srijantech</span>
-            </motion.h1>
-          </div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            Pioneering the future of technology with innovation and integrity.
-          </motion.p>
+            Engineering the <span>Human-AI Interface</span>
+          </motion.h1>
+          <p>Architecting the digital foundations of the next decade with precision and purpose.</p>
         </div>
       </section>
 
-      <section className="about-intro-section">
+      <section className="founder-story-section premium-section">
         <div className="container">
-          <div className="about-intro-wrapper">
+          <div className="philosophy-grid">
             <motion.div
-              className="about-intro-text"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              className="philosophy-text"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="reveal-mask">
-                <motion.h2
-                  initial={{ y: "100%" }}
-                  whileInView={{ y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, ease: "circOut" }}
-                >
-                  Your Global Hub for <span>Elite Software Solutions</span>
-                </motion.h2>
+              <span className="tag">The Genesis</span>
+              <h2>Building the Future, One Line of Logic at a Time.</h2>
+              <p>Founded by **Shivang Gangwar** and **Srishti Yadav**, S2Srijantech emerged from a shared vision: to bridge the gap between complex engineering and human-centric software. What started as an innovation lab is now a global engineering partner, delivering mission-critical AI systems to industries worldwide.</p>
+              <p>"Our journey isn't just about code; it's about the intelligence that powers progress. We don't just solve problems; we architect sustainable digital futures."</p>
+              <div className="signature-flex">
+                <div className="sig-item">
+                  <p className="name">Shivang Gangwar</p>
+                  <p className="role">Founder & CTO</p>
+                </div>
+                <div className="sig-item">
+                  <p className="name">Srishti Yadav</p>
+                  <p className="role">Founder & COO</p>
+                </div>
               </div>
-              <p className="tagline">“Innovating Today for a Smarter Digital Tomorrow.”</p>
-              <p>S2Srijantech is more than just a tech company—we are your partners in digital transformation. From building high-performance websites to developing complex enterprise software and cutting-edge AI integrations, we deliver "Har tarah ki solutions" (every kind of solution) tailored to your business needs.</p>
-              <p>Founded on the principles of excellence and innovation, our team of experts is dedicated to pushing the boundaries of what's possible in the digital world, ensuring your business stays ahead in a rapidly evolving market.</p>
+            </motion.div>
+            <motion.div
+              className="story-visual"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+            >
+              <div className="glass-premium story-stats-card">
+                <div className="mini-stat">
+                  <h4>5+</h4>
+                  <p>Years of Engineering</p>
+                </div>
+                <div className="mini-stat">
+                  <h4>100%</h4>
+                  <p>Deployment Success</p>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      <section className="mission-vision-cards-section">
+      <section className="roadmap-section premium-section alternate-bg">
         <div className="container">
-          <motion.div
-            className="mission-vision-grid"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <motion.div
-              className="mv-card"
-              variants={itemVariants}
-              whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(37, 99, 235, 0.1)' }}
-            >
-              <h3>🎯 Our Mission</h3>
-              <p>To empower businesses globally by delivering state-of-the-art digital engineering and AI-driven solutions that simplify complex operational challenges and catalyze sustainable growth.</p>
-            </motion.div>
-            <motion.div
-              className="mv-card"
-              variants={itemVariants}
-              whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(37, 99, 235, 0.1)' }}
-            >
-              <h3>🚀 Our Vision</h3>
-              <p>To be the premier global hub for technological innovation, where every digital solution we craft fosters a more efficient, connected, and intelligent future for industries worldwide.</p>
-            </motion.div>
-          </motion.div>
+          <div className="section-header">
+            <h2>Vision 2030 Roadmap</h2>
+            <p>Our strategic trajectory towards a hyper-intelligent future.</p>
+          </div>
+
+          <div className="roadmap-container">
+            {roadmap.map((item, index) => (
+              <motion.div
+                key={index}
+                className="roadmap-item"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.2 }}
+              >
+                <div className="year-glitch">{item.year}</div>
+                <div className="roadmap-card glass-premium">
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </div>
+                {index < roadmap.length - 1 && <div className="roadmap-line"></div>}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="values">
+      <section className="values-section premium-section">
         <div className="container">
-          <motion.div
-            className="value-grid"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
+          <div className="section-header">
+            <h2>Our Core Principles</h2>
+            <p>The engineering DNA that drives every decision we make.</p>
+          </div>
+          <div className="service-grid">
             {values.map((v, i) => (
               <motion.div
                 key={i}
-                className="value-card"
-                variants={itemVariants}
-                whileHover={{ y: -10, color: 'var(--accent)' }}
+                className="glass-premium value-card-new"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -10 }}
               >
-                <div className="icon">{v.icon}</div>
+                <div className="icon-wrapper">{v.icon}</div>
                 <h3>{v.title}</h3>
                 <p>{v.desc}</p>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>

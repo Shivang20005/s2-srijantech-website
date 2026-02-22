@@ -1,29 +1,59 @@
-import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, Phone, MapPin, Send, CheckCircle2, MessageSquare, ShieldCheck, Clock, HelpCircle, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
+const FAQItem = ({ question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className={`faq-item-premium ${isOpen ? 'active' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+      <div className="faq-question">
+        <span>{question}</span>
+        <ChevronDown size={18} className="faq-chevron" />
+      </div>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="faq-answer"
+          >
+            <p>{answer}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 const Contact = () => {
-  const [status, setStatus] = useState('idle'); // idle, submitting, success, error
+  const [status, setStatus] = useState('idle');
+
+  const faqs = [
+    { question: 'What is the typical deployment timeline?', answer: 'For standard enterprise modules, we aim for a 4-6 week sprint. High-complexity AI systems typically require 8-12 weeks from discovery to production.' },
+    { question: 'Do you provide ongoing SLA support?', answer: 'Yes. We offer 24/7 mission-critical support with guaranteed response times under 120 minutes for Tier-1 issues.' },
+    { question: 'Is my data used for model training?', answer: 'Never. We uphold radical data integrity. All client models and datasets are isolated and encrypted at rest.' },
+    { question: 'Which tech stack do you specialize in?', answer: 'Our engineering core is built on React/Vite, Node.js, Python/PyTorch, and AWS/Azure cloud architectures.' }
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('submitting');
-
     const formData = new FormData(e.target);
-    try {
-      const response = await fetch("https://formspree.io/f/xvgzqvjo", {
-        method: "POST",
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
+    const data = Object.fromEntries(formData.entries());
 
-      if (response.ok) {
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/s2srijantech@gmail.com", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+      if (response.ok && result.success === "true") {
         setStatus('success');
         e.target.reset();
       } else {
-        setStatus('error');
+        throw new Error("Submission failed");
       }
     } catch (error) {
       setStatus('error');
@@ -32,96 +62,110 @@ const Contact = () => {
 
   return (
     <div className="contact-page">
-      <section className="page-header">
+      <section className="page-header dark">
         <div className="container">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            Get in <span>Touch</span>
+            Connect with <span>Engineering</span>
           </motion.h1>
-          <p>We're ready to answer your questions and help you start your journey with AI.</p>
+          <p>Direct access to architects. No sales fluff. Only solutions.</p>
         </div>
       </section>
 
-      <section className="contact-section">
-        <div className="container grid">
+      <section className="contact-main premium-section">
+        <div className="container contact-grid-premium">
           <motion.div
-            className="info"
+            className="contact-info-panel"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <h2>Contact Information</h2>
-            <p>Ready to innovate? Reach out to us through any of these channels or fill out the form.</p>
+            <span className="tag">Intelligence Hub</span>
+            <h2>Let's build the next decade.</h2>
+            <p>Our engineering team responds to all technical inquiries within **120 minutes** during business cycles.</p>
 
-            <div className="contact-methods">
-              <div className="method">
-                <div className="icon"><MapPin /></div>
+            <div className="method-stack">
+              <div className="method-glass">
+                <Mail size={20} />
                 <div>
-                  <h3>Address</h3>
-                  <p>C.B. Ganj, Bareilly, Uttar Pradesh, India</p>
+                  <label>Encrypted Email</label>
+                  <p>s2srijantech@gmail.com</p>
                 </div>
               </div>
-              <div className="method">
-                <div className="icon"><Mail /></div>
+              <div className="method-glass">
+                <Phone size={20} />
                 <div>
-                  <h3>Email</h3>
-                  <p>S2srijantech@gmail.com</p>
+                  <label>Direct Line</label>
+                  <p>+91 9457988148</p>
                 </div>
               </div>
-              <div className="method">
-                <div className="icon"><Phone /></div>
+              <div className="method-glass">
+                <MapPin size={20} />
                 <div>
-                  <h3>Phone</h3>
-                  <p>+91 9457988148<br />+91 6396989128</p>
+                  <label>Global HQ</label>
+                  <p>UP, India</p>
                 </div>
               </div>
+            </div>
+
+            <div className="trust-metrics-contact">
+              <div className="t-metric"><ShieldCheck size={16} /> Data Sovereignty</div>
+              <div className="t-metric"><Clock size={16} /> Rapid Deployment</div>
+              <div className="t-metric"><MessageSquare size={16} /> Direct Architect Access</div>
             </div>
           </motion.div>
 
           <motion.div
-            className="form-wrapper"
+            className="contact-form-panel glass-premium"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
             {status === 'success' ? (
-              <motion.div
-                className="success-message"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-              >
-                <CheckCircle2 size={60} color="var(--accent)" />
-                <h2>Message Sent Successfully!</h2>
-                <p>Thank you for reaching out. We will get back to you at <strong>S2srijantech@gmail.com</strong> shortly.</p>
-                <button className="btn btn-primary" onClick={() => setStatus('idle')}>Send Another Message</button>
-              </motion.div>
+              <div className="success-state">
+                <CheckCircle2 size={48} className="glow-icon" />
+                <h3>Handshake Established</h3>
+                <p>Our engineering team has received your logic packet. We will reach out shortly.</p>
+                <button className="btn btn-primary" onClick={() => setStatus('idle')}>New Transmission</button>
+              </div>
             ) : (
-              <form onSubmit={handleSubmit} className="contact-form">
-                <div className="form-group">
-                  <label>Full Name</label>
-                  <input type="text" name="name" placeholder="Name" required />
+              <form onSubmit={handleSubmit} className="premium-form">
+                <div className="input-group-floating">
+                  <input type="text" name="name" placeholder=" " required />
+                  <label>Full Identity</label>
                 </div>
-                <div className="form-group">
-                  <label>Email Address</label>
-                  <input type="email" name="email" placeholder="example@mail.com" required />
+                <div className="input-group-floating">
+                  <input type="email" name="email" placeholder=" " required />
+                  <label>Protocol (Email)</label>
                 </div>
-                <div className="form-group">
-                  <label>Subject</label>
-                  <input type="text" name="subject" placeholder="Project Inquiry" required />
+                <div className="input-group-floating">
+                  <textarea name="message" rows="4" placeholder=" " required></textarea>
+                  <label>Project Brief / Inquiry</label>
                 </div>
-                <div className="form-group">
-                  <label>Your Message</label>
-                  <textarea name="message" rows="5" placeholder="How can we help you?" required></textarea>
-                </div>
-                <button type="submit" className="btn btn-primary" disabled={status === 'submitting'}>
-                  {status === 'submitting' ? 'Sending...' : 'Send Message'} <Send size={18} />
+                <button type="submit" className="btn btn-primary large shadow-glow" disabled={status === 'submitting'}>
+                  {status === 'submitting' ? 'Transmitting...' : 'Initiate Handshake'} <Send size={18} />
                 </button>
-                {status === 'error' && <p className="error-text">Oops! Something went wrong. Please try again.</p>}
+                {status === 'error' && <p className="error-log">Transmission failed. Please retry or use direct email.</p>}
               </form>
             )}
           </motion.div>
+        </div>
+      </section>
+
+      <section className="faq-section-contact premium-section alternate-bg">
+        <div className="container">
+          <div className="section-header">
+            <HelpCircle size={40} className="icon-glow" />
+            <h2>Intelligence Briefing (FAQ)</h2>
+            <p>Rapid answers to foundational engineering questions.</p>
+          </div>
+          <div className="faq-grid-premium">
+            {faqs.map((faq, i) => (
+              <FAQItem key={i} {...faq} />
+            ))}
+          </div>
         </div>
       </section>
     </div>
