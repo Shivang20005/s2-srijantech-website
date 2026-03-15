@@ -25,7 +25,17 @@ const CaseStudyCard = ({ study, index, onExplore }) => {
             <div className="mockup-header-dots"><span></span><span></span><span></span></div>
             <div className="mockup-content">
               <img src={study.image} alt={study.title} />
-              <div className="mockup-overlay" onClick={() => onExplore(study)}><Play size={40} /></div>
+              <div className="mockup-overlay">
+                {study.link ? (
+                  <a href={study.link} target="_blank" rel="noopener noreferrer" className="link-icon-btn">
+                    <Globe size={40} />
+                  </a>
+                ) : (
+                  <div className="placeholder-overlay" onClick={() => onExplore(study)}>
+                    <Play size={40} />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -33,21 +43,21 @@ const CaseStudyCard = ({ study, index, onExplore }) => {
           <div className="industry-meta">
             <span className="mini-tag">{study.industry}</span>
             <div className="meta-dots"></div>
-            <span className="mini-tag">AI Deployment</span>
+            <span className="mini-tag">{study.type || "Web Architecture"}</span>
           </div>
           <h3>{study.title}</h3>
 
           <div className="case-meta-list">
             <div className="meta-item">
-              <label>Problem</label>
+              <label>Objective</label>
               <p>{study.problem}</p>
             </div>
             <div className="meta-item">
-              <label>Solution</label>
+              <label>Core Solution</label>
               <p>{study.solution}</p>
             </div>
             <div className="meta-item">
-              <label>Measurable Impact</label>
+              <label>Key Results</label>
               <div className="impact-pills">
                 {study.impact.map((imp, i) => (
                   <span key={i} className="impact-badge"><Zap size={14} /> {imp}</span>
@@ -62,9 +72,16 @@ const CaseStudyCard = ({ study, index, onExplore }) => {
             ))}
           </div>
 
-          <button className="btn-explore-case" onClick={() => onExplore(study)}>
-            View Full Architecture <ArrowRight size={18} />
-          </button>
+          <div className="btn-group-card">
+            {study.link && (
+              <a href={study.link} target="_blank" rel="noopener noreferrer" className="btn-explore-case">
+                Live Preview <Globe size={18} />
+              </a>
+            )}
+            <button className="btn-details-case" onClick={() => onExplore(study)}>
+              Technical Details <ArrowRight size={18} />
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -77,52 +94,137 @@ const Projects = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setCounts({ deployments: 12, industries: 8, uptime: 99.2, datapoints: 2 });
+      setCounts({ deployments: 25, industries: 12, uptime: 99.9, datapoints: 5 });
     }, 500);
     return () => clearTimeout(timer);
   }, []);
 
   const studies = [
     {
-      title: "Neural-Mesh Healthcare Ecosystem",
-      industry: "Healthcare • SaaS",
-      problem: "Fragmented patient data silos causing 18% delay in critical interventions.",
-      solution: "Implemented an end-to-end encrypted AI mesh unifying real-time vitals and predictive pathology.",
-      impact: ["32% Faster Interventions", "18% Cost Optimization", "40k active users"],
-      tech: ["PyTorch", "Node.js", "Redis", "AWS Lambda"],
+      title: "Predict-AI: Healthcare Intelligence",
+      industry: "Healthcare • AI",
+      type: "AI DEPLOYMENT",
+      problem: "Empowering healthcare providers with predictive diagnostics and patient data analysis.",
+      solution: "Developed an AI-driven platform for real-time disease prediction and health monitoring.",
+      impact: ["92% Prediction Accuracy", "Real-time Monitoring", "Patient-Centric UI"],
+      tech: ["Python", "Flask", "React", "TensorFlow"],
       image: "https://images.unsplash.com/photo-1576091160550-217359f42f8c?auto=format&fit=crop&q=80&w=800",
+      link: "https://predict-ai-ecru.vercel.app/",
       details: {
-        challenge: "The primary challenge was data synchronization across 15 different hospital systems with strictly HIPAA-compliant constraints.",
-        architecture: "A microservices-based mesh using WebSockets for real-time telemetry and a central neural model for triage.",
-        quote: "The S2 engineering team didn't just build a tool; they redefined our digital surgical floor."
+        challenge: "Integrating complex AI models into a responsive web interface while ensuring data privacy.",
+        architecture: "Cloud-native architecture with microservices for AI inference and frontend delivery.",
+        quote: "Predict-AI has revolutionized how we approach proactive healthcare."
       }
     },
     {
-      title: "AgriDost: Autonomous Growth Engine",
+      title: "Shivang Portfolio: Personal Brand",
+      industry: "Portfolio • Branding",
+      type: "UX/UI DESIGN",
+      problem: "Creating a standout digital presence for a developer with a focus on skill visualization.",
+      solution: "A high-performance, minimalist portfolio with interactive elements and smooth transitions.",
+      impact: ["Enhanced Visibility", "Interactive Experience", "Mobile Optimized"],
+      tech: ["React", "Framer Motion", "GSAP", "Three.js"],
+      image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800",
+      link: "https://shivang-portfolio-zeta.vercel.app/",
+      details: {
+        challenge: "Balancing heavy animations with performance and accessibility across all devices.",
+        architecture: "Component-based architecture with optimized assets and lazy loading.",
+        quote: "A perfect reflection of technical skills and creative vision."
+      }
+    },
+    {
+      title: "Srishti Portfolio: Creative Edge",
+      industry: "Portfolio • Creative",
+      type: "WEB DEVELOPMENT",
+      problem: "Developing a creative space that showcases design projects with pixel perfection.",
+      solution: "Implemented a vibrant, highly visual portfolio featuring CSS art and tailored animations.",
+      impact: ["Creative Showcasing", "Fast Load Times", "Seamless Navigation"],
+      tech: ["React", "Tailwind CSS", "AOS", "Vite"],
+      image: "https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&q=80&w=800",
+      link: "https://srishti-khaki.vercel.app/",
+      details: {
+        challenge: "Crafting a unique layout that scales perfectly from mobile to wide-screen monitors.",
+        architecture: "Utility-first CSS framework integrated with a modern React frontend.",
+        quote: "The design truly captures the essence of modern creativity."
+      }
+    },
+    {
+      title: "Aditya Tondon: Developer Portfolio",
+      industry: "Portfolio • Personal",
+      type: "WEB ARCHITECTURE",
+      problem: "Building a professional hub to host full-stack projects and technical blogs.",
+      solution: "A robust, multi-page portfolio with a clean aesthetic and integrated blog system.",
+      impact: ["Structured Layout", "Responsive Design", "Integrated Content"],
+      tech: ["Next.js", "Contentful", "Styled Components"],
+      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800",
+      link: "https://leafy-dango-cae0eb.netlify.app/",
+      details: {
+        challenge: "Ensuring SEO optimization and fast static site generation for blog content.",
+        architecture: "Server-side rendering with headless CMS for dynamic content management.",
+        quote: "Clean, professional, and functionally complete."
+      }
+    },
+    {
+      title: "Ashish Gangwar: Code & Craft",
+      industry: "Portfolio • Engineering",
+      type: "SYSTEM DESIGN",
+      problem: "Showcasing technical architecture and backend expertise in a visual manner.",
+      solution: "Developed a dark-themed portfolio highlighting system diagrams and code snippets.",
+      impact: ["Visual Architecture", "Code Highlights", "Modern Aesthetic"],
+      tech: ["React", "Lucide React", "Netlify"],
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
+      link: "https://ashishgangwar.netlify.app/",
+      details: {
+        challenge: "Representing complex backend systems through simple yet effective UI elements.",
+        architecture: "Single Page Application (SPA) architecture with modular component hierarchy.",
+        quote: "A masterclass in technical storytelling."
+      }
+    },
+    {
+      title: "Blithe Boom: Business Growth",
+      industry: "E-Commerce • Service",
+      type: "FULL STACK WEB",
+      problem: "Helping small businesses scale online with an integrated digital setup.",
+      solution: "An all-in-one platform for service booking, business management, and online presence.",
+      impact: ["Business Scaling", "Integrated Payments", "User Dashboard"],
+      tech: ["MERN Stack", "Stripe", "Redux"],
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
+      link: "https://blithe-boom.vercel.app/",
+      details: {
+        challenge: "Managing complex state across user and admin dashboards with real-time updates.",
+        architecture: "Full-stack application with a RESTful API and centralized state management.",
+        quote: "S2Srijantech turned our business vision into a scalable digital reality."
+      }
+    },
+    {
+      title: "Punara: E-Commerce Marketplace",
+      industry: "Retail • E-Commerce",
+      type: "FULL STACK WEB",
+      problem: "Bridging the gap between quality products and digital consumers with a seamless shopping experience.",
+      solution: "A scalable e-commerce platform with intuitive search, secure checkout, and real-time inventory tracking.",
+      impact: ["Streamlined Sales", "Customer Retention", "Mobile-First UX"],
+      tech: ["React", "Node.js", "Redux", "Payment Gateway"],
+      image: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&q=80&w=800",
+      link: "https://punara.co.in/",
+      details: {
+        challenge: "Handling concurrent transactions and high traffic during seasonal sales.",
+        architecture: "Distributed architecture with integrated payment gateways and automated order management.",
+        quote: "Punara has transformed our local business into a national retail powerhouse."
+      }
+    },
+    {
+      title: "AgriDost: Farmers' Best Friend",
       industry: "Agriculture • IoT",
-      problem: "Inconsistent soil monitoring leads to 15% crop loss annually due to detection latency.",
-      solution: "Edge AI integration with sensor-mesh for predictive irrigation and disease detection.",
-      impact: ["22% Yield Increase", "Zero-Latent Inferencing", "18% Water Saving"],
-      tech: ["TensorFlow Lite", "FastAPI", "MQTT", "AWS IOT"],
+      type: "EDGE AI",
+      problem: "Helping farmers monitor crop health and soil quality in remote areas.",
+      solution: "An offline-first IoT ecosystem with mobile app integration for real-time field data.",
+      impact: ["Crop Loss Reduction", "Soil Health Monitoring", "Resource Optimization"],
+      tech: ["Flutter", "IOT", "Arduino", "LoRa"],
       image: "https://images.unsplash.com/photo-1560493676-04071c5f4976?auto=format&fit=crop&q=80&w=800",
       details: {
-        challenge: "Connectivity in remote areas was the hurdle. We had to implement offline-first Edge AI.",
-        architecture: "LoRaWAN mesh network feeding into NVIDIA Jetson edge nodes with quantized models.",
-        quote: "Precision farming is now a reality for our farmers thanks to this autonomous brain."
-      }
-    },
-    {
-      title: "Industrial Vision: QC Automation",
-      industry: "Manufacturing • Computer Vision",
-      problem: "Manual quality checks lead to 5% defect slippage in high-volume production lines.",
-      solution: "Real-time CV inspection using deep learning models on specialized edge nodes.",
-      impact: ["99.9% Defect Detection", "60% Labor Optimization", "ROI in 8 Months"],
-      tech: ["OpenCV", "PyTorch", "Kubernetes", "Azure Edge"],
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
-      details: {
-        challenge: "High-speed conveyor belts required sub-20ms inference times.",
-        architecture: "TensorRT optimized pipelines running on industrial-grade GPUs.",
-        quote: "Zero slippage is now our standard. The ROI was visible within the first quarter."
+        challenge: "Transmitting data over long distances in areas with no cellular connectivity.",
+        architecture: "LoRaWAN mesh network feeding into a local gateway with edge processing.",
+        quote: "A groundbreaking solution for precision agriculture."
       }
     }
   ];
@@ -160,10 +262,12 @@ const Projects = () => {
                       <h4>The Architecture</h4>
                       <p>{selectedStudy.details.architecture}</p>
                     </div>
-                    <div className="info-block quote-block">
-                      <MessageSquare size={20} className="quote-icon" />
-                      <p>"{selectedStudy.details.quote}"</p>
-                    </div>
+                    {selectedStudy.details.quote && (
+                      <div className="info-block quote-block">
+                        <MessageSquare size={20} className="quote-icon" />
+                        <p>"{selectedStudy.details.quote}"</p>
+                      </div>
+                    )}
                   </div>
                   <div className="modal-visual">
                     <img src={selectedStudy.image} alt="Architecture" />
@@ -187,12 +291,12 @@ const Projects = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
             >
-              <div className="premium-tag"><div className="glow-dot"></div> Engineering Production-Grade</div>
-              <h1>Engineering <span>Production-Grade</span> AI Systems That Scale</h1>
-              <p>Real-world deployments across healthcare, agriculture, and industrial automation — built with measurable impact.</p>
+              <div className="premium-tag"><div className="glow-dot"></div> Engineering Excellence</div>
+              <h1>Crafting <span>Digital Future</span> With Every Line of Code</h1>
+              <p>Explore our diverse portfolio of AI innovations, professional branding, and full-stack web solutions.</p>
               <div className="btn-group">
-                <button className="btn btn-primary large shadow-glow">View Case Studies</button>
-                <button className="btn btn-secondary large">Schedule Technical Discussion</button>
+                <button className="btn btn-primary large shadow-glow">Explore Work</button>
+                <button className="btn btn-secondary large">Get In Touch</button>
               </div>
             </motion.div>
             <div className="hero-visual-3d">
@@ -213,16 +317,16 @@ const Projects = () => {
         <div className="container">
           <div className="ticker-grid">
             <div className="ticker-item">
-              <span className="val">{counts.deployments}+</span> <span className="lab">Deployments</span>
+              <span className="val">{counts.deployments}+</span> <span className="lab">Projects</span>
             </div>
             <div className="ticker-item">
-              <span className="val">{counts.industries}</span> <span className="lab">Industries</span>
+              <span className="val">{counts.industries}</span> <span className="lab">Sectors</span>
             </div>
             <div className="ticker-item">
-              <span className="val">{counts.uptime}%</span> <span className="lab">Uptime</span>
+              <span className="val">{counts.uptime}%</span> <span className="lab">Satisfaction</span>
             </div>
             <div className="ticker-item">
-              <span className="val">{counts.datapoints}M+</span> <span className="lab">Data Points/Day</span>
+              <span className="val">{counts.datapoints}M+</span> <span className="lab">Users Impacted</span>
             </div>
           </div>
         </div>
@@ -232,9 +336,9 @@ const Projects = () => {
       <section className="case-studies-grid-section premium-section">
         <div className="container">
           <div className="section-header center">
-            <span className="mini-tag">Proven Results</span>
-            <h2>Industrial-Grade Case Studies</h2>
-            <p>From architectural logic to global enterprise scaling.</p>
+            <span className="mini-tag">Our Portfolio</span>
+            <h2>Selected Works</h2>
+            <p>A showcase of our commitment to quality and technical brilliance.</p>
           </div>
           <div className="studies-stack">
             {studies.map((study, idx) => (
@@ -249,28 +353,28 @@ const Projects = () => {
         <div className="container">
           <div className="architecture-grid-mesh">
             <div className="arch-text">
-              <h2>System Architecture <span>Engineering</span></h2>
-              <p>Modular, secure, and hyper-scalable foundational layers for high-availability systems.</p>
+              <h2>Building <span>Robust</span> Foundations</h2>
+              <p>Our engineering approach prioritizes scalability, security, and user experience.</p>
               <div className="arch-layers">
                 <div className="arch-layer-item">
                   <div className="lay-num">01</div>
                   <div className="lay-det">
-                    <h4>API Layer</h4>
-                    <p>Secure Gateway utilizing JWT & Multi-region load balancing.</p>
+                    <h4>User-Centric UI</h4>
+                    <p>Designed for intuition and seamless interaction.</p>
                   </div>
                 </div>
                 <div className="arch-layer-item">
                   <div className="lay-num">02</div>
                   <div className="lay-det">
-                    <h4>AI Inference Engine</h4>
-                    <p>High-performance neural paths optimized for edge delivery.</p>
+                    <h4>Scalable Backend</h4>
+                    <p>Built to handle growth and high-concurrency requests.</p>
                   </div>
                 </div>
                 <div className="arch-layer-item">
                   <div className="lay-num">03</div>
                   <div className="lay-det">
-                    <h4>Data Lake Ingestion</h4>
-                    <p>Real-time processing of millions of telemetry points per day.</p>
+                    <h4>AI Integration</h4>
+                    <p>Intelligent layers that add real-world value to digital products.</p>
                   </div>
                 </div>
               </div>
@@ -284,164 +388,11 @@ const Projects = () => {
                 >
                   <Layers size={120} className="glow-icon" />
                   <div className="viz-labels">
-                    <span>DATA</span>
-                    <span>LOGIC</span>
-                    <span>DELIVERY</span>
+                    <span>DESIGN</span>
+                    <span>CODE</span>
+                    <span>SCALE</span>
                   </div>
                 </motion.div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. CLIENT LOGOS (TRUST BAR) */}
-      <section className="client-logos-section">
-        <div className="container">
-          <span className="trust-label">Powering Innovation Across Key Sectors</span>
-          <div className="logo-mesh">
-            {['Healthcare Group', 'AgriTech Startup', 'Manufacturing Firm', 'Fintech Lab', 'Logistics AI'].map((client, i) => (
-              <div key={i} className="client-logo-greyscale">{client}</div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 7. INNOVATION CAPABILITY SECTION */}
-      <section className="innovation-capability premium-section alternate-bg">
-        <div className="container">
-          <div className="grid-2col-center">
-            <div className="capability-list">
-              <span className="tag">Tech Capabilities</span>
-              <h2>Future-Proof AI Engineering</h2>
-              <ul className="cap-bullets">
-                <li><Workflow size={20} /> <strong>MLOps:</strong> Automated CI/CD pipelines for neural models.</li>
-                <li><Monitor size={20} /> <strong>Edge AI:</strong> Low-latency inferencing on specialized hardware.</li>
-                <li><Network size={20} /> <strong>Federated Learning:</strong> Decentralized data training with privacy.</li>
-                <li><Bot size={20} /> <strong>Vision Systems:</strong> High-speed industrial computer vision.</li>
-              </ul>
-            </div>
-            <div className="code-visual glass-premium">
-              <div className="code-header"><div className="dot red"></div><div className="dot yellow"></div><div className="dot green"></div></div>
-              <pre><code>{`
-class AIModelOptimizer:
-    def __init__(self, model):
-        self.engine = "NeuralPath-V2"
-        self.latency_goal = 0.002 # 2ms
-    
-    def scale_layer(self, architecture):
-        return architecture.optimize_mesh()
-                 `}</code></pre>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. PERFORMANCE GRAPH SECTION */}
-      <section className="performance-graphs premium-section">
-        <div className="container">
-          <div className="section-header center">
-            <h2>Quantifiable Gains</h2>
-            <p>Impact-first metrics across our deployment spectrum.</p>
-          </div>
-          <div className="graph-mesh">
-            <div className="graph-card glass-premium">
-              <h4>accuracy improvement</h4>
-              <div className="bar-container">
-                <motion.div className="bar" initial={{ width: 0 }} whileInView={{ width: '99%' }}></motion.div>
-              </div>
-              <span className="graph-val">99.2% Prediction Accuracy</span>
-            </div>
-            <div className="graph-card glass-premium">
-              <h4>Cost Optimization</h4>
-              <div className="bar-container">
-                <motion.div className="bar" initial={{ width: 0 }} whileInView={{ width: '65%' }} style={{ background: 'var(--accent-glow)' }}></motion.div>
-              </div>
-              <span className="graph-val">35% Avg Reduction</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 9. ENGINEERING PROCESS */}
-      <section className="process-timeline-premium premium-section alternate-bg">
-        <div className="container">
-          <div className="section-header">
-            <h2>Engineering Lifecycle</h2>
-            <p>The S2 methodology for mission-critical software.</p>
-          </div>
-          <div className="timeline-horizontal">
-            {[
-              { title: "Requirement Analysis", desc: "First-principles deep dive." },
-              { title: "Data Engineering", desc: "Aggregating & cleaning telemetry." },
-              { title: "Model Training", desc: "Neural path optimization." },
-              { title: "Production Deployment", desc: "Global edge orchestration." },
-              { title: "Continuous Monitoring", desc: "System health & retraining." }
-            ].map((step, i) => (
-              <div key={i} className="timeline-block">
-                <div className="block-num">{i + 1}</div>
-                <div className="block-line"></div>
-                <h3>{step.title}</h3>
-                <p>{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 10. SECURITY & COMPLIANCE BLOCK */}
-      <section className="security-compliance-block premium-section">
-        <div className="container">
-          <div className="security-card-full glass-premium">
-            <div className="sec-header">
-              <ShieldCheck size={50} className="glow-icon" />
-              <h2>Enterprise-Grade <span>Security First</span></h2>
-            </div>
-            <div className="compliance-grid">
-              <div className="comp-item">
-                <Shield size={24} />
-                <h4>GDPR Ready</h4>
-                <p>Native data sovereignty protocols.</p>
-              </div>
-              <div className="comp-item">
-                <Shield size={24} />
-                <h4>HIPAA Compliant</h4>
-                <p>Securing critical healthcare telemetry.</p>
-              </div>
-              <div className="comp-item">
-                <Shield size={24} />
-                <h4>ISO Alignment</h4>
-                <p>Industry-standard process certification.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 13. TECHNOLOGY ECOSYSTEM */}
-      <section className="tech-ecosystem-grid premium-section alternate-bg">
-        <div className="container">
-          <div className="section-header center">
-            <h2>Technology Ecosystem</h2>
-            <p>Built with global standard frameworks.</p>
-          </div>
-          <div className="tech-categories">
-            <div className="tech-cat-box glass-premium">
-              <h4>Artificial Intelligence</h4>
-              <div className="tech-stack-pills">
-                <span>PyTorch</span> <span>TensorFlow</span> <span>OpenCV</span>
-              </div>
-            </div>
-            <div className="tech-cat-box glass-premium">
-              <h4>Cloud & Infrastructure</h4>
-              <div className="tech-stack-pills">
-                <span>AWS</span> <span>Azure</span> <span>Kubernetes</span>
-              </div>
-            </div>
-            <div className="tech-cat-box glass-premium">
-              <h4>Backend Architecture</h4>
-              <div className="tech-stack-pills">
-                <span>Node.js</span> <span>Django</span> <span>FastAPI</span>
               </div>
             </div>
           </div>
@@ -456,11 +407,11 @@ class AIModelOptimizer:
             initial={{ scale: 0.95, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
           >
-            <h2>Ready to Architect Your <span>AI Infrastructure?</span></h2>
-            <p>Join the next generation of global businesses leveraging hyper-intelligent digital architectures.</p>
+            <h2>Have a Project in <span>Mind?</span></h2>
+            <p>Let's collaborate to build something extraordinary together.</p>
             <div className="btn-group centered">
-              <button className="btn btn-primary large shadow-glow">Book Strategy Call</button>
-              <button className="btn btn-secondary large">Request Proposal</button>
+              <button className="btn btn-primary large shadow-glow">Start Project</button>
+              <button className="btn btn-secondary large">Our Process</button>
             </div>
           </motion.div>
         </div>

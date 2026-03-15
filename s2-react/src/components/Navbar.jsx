@@ -76,26 +76,28 @@ const Navbar = () => {
           <span className="logo-text">S2Srijantech</span>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="nav-links">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              className={`nav-link-item ${location.pathname === link.path ? 'active' : ''}`}
-            >
-              <span className="nav-icon">{link.icon}</span>
-              <span className="nav-text">{link.name}</span>
-            </Link>
-          ))}
-        </nav>
+        {/* Desktop Nav - Pushed to the right */}
+        <div className="nav-wrapper">
+          <nav className="nav-links">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                className={`nav-link-item ${location.pathname === link.path ? 'active' : ''}`}
+              >
+                <span className="nav-icon">{link.icon}</span>
+                <span className="nav-text">{link.name}</span>
+              </Link>
+            ))}
+          </nav>
+        </div>
 
         {/* Mobile Toggle */}
         <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
 
-        {/* Mobile Nav */}
+        {/* Mobile Nav - All buttons visible here */}
         <div className={`mobile-nav-wrapper ${isMenuOpen ? 'open' : ''}`}>
           <div className="mobile-nav-content">
             <nav className="mobile-nav">
@@ -104,7 +106,7 @@ const Navbar = () => {
                   key={link.name}
                   to={link.path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={location.pathname === link.path ? 'active' : ''}
+                  className={`mobile-nav-link ${location.pathname === link.path ? 'active' : ''}`}
                 >
                   {link.icon}
                   <span>{link.name}</span>
