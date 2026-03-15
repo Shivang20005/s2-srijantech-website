@@ -9,6 +9,7 @@ import {
   TrendingUp, Monitor, HardDrive, Shield, X
 } from 'lucide-react';
 import ParticleBackground from '../components/ParticleBackground';
+import predictAiImg from '../assets/images/predict_ai.png';
 
 const CaseStudyCard = ({ study, index, onExplore }) => {
   return (
@@ -108,7 +109,7 @@ const Projects = () => {
       solution: "Developed an AI-driven platform for real-time disease prediction and health monitoring.",
       impact: ["92% Prediction Accuracy", "Real-time Monitoring", "Patient-Centric UI"],
       tech: ["Python", "Flask", "React", "TensorFlow"],
-      image: "https://images.unsplash.com/photo-1576091160550-217359f42f8c?auto=format&fit=crop&q=80&w=800",
+      image: predictAiImg,
       link: "https://predict-ai-ecru.vercel.app/",
       details: {
         challenge: "Integrating complex AI models into a responsive web interface while ensuring data privacy.",
